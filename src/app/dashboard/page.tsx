@@ -1,11 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Calendar, MapPin, CheckCircle, Package } from "lucide-react";
+import Image from "next/image";
+import { Calendar, MapPin, CheckCircle, Package, ArrowRight, Image as ImageIcon } from "lucide-react";
 
 export default function DashboardPage() {
-  // Mock event data
+  const [customRequests, setCustomRequests] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Load mock custom requests from localStorage
+    const saved = localStorage.getItem('customRequests');
+    if (saved) {
+      setCustomRequests(JSON.parse(saved));
+    }
+  }, []);
+
+  // Mock event data (Flow A)
   const upcomingEvent = {
     id: "FE-8291",
     occasion: "Haldi",
@@ -17,24 +28,90 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-muted/20 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
         <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between animate-fade-in">
           <div>
-            <h1 className="font-serif text-4xl font-bold text-foreground mb-2">My Events</h1>
-            <p className="text-muted-foreground">Manage your upcoming and past celebrations.</p>
+            <h1 className="font-serif text-4xl font-bold text-foreground mb-2">My Dashboard</h1>
+            <p className="text-muted-foreground">Manage your upcoming celebrations and custom design requests.</p>
           </div>
-          <Link href="/build" className="mt-4 md:mt-0 px-6 py-2.5 rounded-full bg-primary text-card font-medium transition-transform hover:scale-105 shadow-sm inline-block text-center">
-            Book New Event
+          <Link href="/gallery" className="mt-4 md:mt-0 px-6 py-3 rounded-xl bg-primary text-card font-bold hover:shadow-lg transition-all inline-flex items-center">
+            Book New Event <ArrowRight size={18} className="ml-2" />
           </Link>
         </div>
 
+        {/* Custom Decoration Requests Section */}
+        {customRequests.length > 0 && (
+          <div className="mb-12 animate-fade-in">
+            <h2 className="font-serif text-2xl font-bold text-foreground mb-6">My Custom Decoration Requests</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {customRequests.map((req: any) => (
+                <div key={req.id} className="bg-card rounded-3xl p-6 border border-border shadow-sm flex flex-col sm:flex-row gap-6 relative overflow-hidden group hover:border-primary/50 transition-colors">
+                  <div className="w-full sm:w-32 h-32 rounded-2xl overflow-hidden relative flex-shrink-0 bg-muted border border-border">
+                    {req.imagePreview ? (
+                      <Image src={req.imagePreview} alt="Custom Request" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-muted-foreground"><ImageIcon /></div>
+                    )}
+                  </div>
+                  
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-bold text-lg text-foreground">{req.eventType} Custom Design</h3>
+                        <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-md border ${
+                          req.status === 'PENDING_REVIEW' ? 'bg-orange-50 text-orange-600 border-orange-200' : 
+                          req.status === 'QUOTATION_READY' ? 'bg-blue-50 text-blue-600 border-blue-200' :
+                          'bg-green-50 text-green-600 border-green-200'
+                        }`}>
+                          {req.status.replace('_', ' ')}
+                        </span>
+                      </div>
+                      
+                      <p className="text-sm text-muted-foreground mb-1 flex items-center gap-2">
+                        <Calendar size={14} className="text-primary/70" /> {req.eventDate}
+                      </p>
+                      <p className="text-sm text-muted-foreground mb-4 flex items-center gap-2">
+                        <MapPin size={14} className="text-primary/70" /> {req.venue}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-border flex justify-between items-center">
+                      {req.status === 'PENDING_REVIEW' ? (
+                        <div>
+                          <span className="text-xs text-muted-foreground block">Price</span>
+                          <span className="font-medium text-sm text-foreground">Not Finalized</span>
+                        </div>
+                      ) : (
+                        <div>
+                          <span className="text-xs text-muted-foreground block">Final Quotation</span>
+                          <span className="font-bold text-lg text-foreground">₹{req.adminPrice?.toLocaleString('en-IN') || '---'}</span>
+                        </div>
+                      )}
+                      
+                      {req.status === 'QUOTATION_READY' ? (
+                        <button className="px-4 py-2 bg-primary text-card rounded-lg text-sm font-bold hover:shadow-md transition-shadow">
+                          Accept Quotation
+                        </button>
+                      ) : (
+                        <button className="px-4 py-2 bg-muted text-foreground rounded-lg text-sm font-medium hover:bg-muted/80 transition-colors">
+                          View Details
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <h2 className="font-serif text-2xl font-bold text-foreground mb-6">Confirmed Bookings</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          {/* Main Event Card */}
+          {/* Main Event Card (Flow A Bookings) */}
           <div className="md:col-span-2 space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <div className="glass-card rounded-3xl p-8 border border-border shadow-md relative overflow-hidden">
-              {/* Decorative accent based on theme */}
+            <div className="bg-card rounded-3xl p-8 border border-border shadow-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-10 -mt-10" />
               
               <div className="flex justify-between items-start mb-6">
@@ -42,7 +119,7 @@ export default function DashboardPage() {
                   <div className="text-xs font-semibold tracking-wider text-muted-foreground uppercase mb-1">Upcoming Event</div>
                   <h2 className="font-serif text-3xl font-bold text-foreground">{upcomingEvent.occasion} Ceremony</h2>
                 </div>
-                <span className="px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full">
+                <span className="px-3 py-1 bg-green-50 text-green-700 border border-green-200 text-sm font-bold rounded-full">
                   {upcomingEvent.status}
                 </span>
               </div>
@@ -72,7 +149,7 @@ export default function DashboardPage() {
                 <div className="flex items-start">
                   <span className="text-primary font-bold text-lg mr-3 mt-0.5">₹</span>
                   <div>
-                    <div className="text-sm text-muted-foreground">Estimated Price</div>
+                    <div className="text-sm text-muted-foreground">Total Price</div>
                     <div className="font-medium text-foreground">{upcomingEvent.estimatedPrice}</div>
                   </div>
                 </div>
@@ -117,10 +194,10 @@ export default function DashboardPage() {
 
           {/* Sidebar */}
           <div className="space-y-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <div className="glass-card rounded-2xl p-6 border border-border shadow-sm">
+            <div className="bg-card rounded-3xl p-6 border border-border shadow-sm">
               <h3 className="font-serif text-xl font-bold text-foreground mb-4">Event Manager</h3>
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center border border-border">
                   <span className="text-lg font-bold text-primary">R</span>
                 </div>
                 <div>
@@ -128,19 +205,19 @@ export default function DashboardPage() {
                   <div className="text-sm text-muted-foreground">Lead Decorator</div>
                 </div>
               </div>
-              <button className="w-full py-2 rounded-xl bg-muted text-foreground font-medium hover:bg-primary/10 transition-colors">
+              <button className="w-full py-2.5 rounded-xl bg-muted text-foreground font-medium hover:bg-primary/10 hover:text-primary transition-colors border border-transparent hover:border-primary/20">
                 Contact Team
               </button>
             </div>
 
-            <div className="glass-card rounded-2xl p-6 border border-border shadow-sm">
+            <div className="bg-card rounded-3xl p-6 border border-border shadow-sm">
               <h3 className="font-serif text-xl font-bold text-foreground mb-4">Documents</h3>
               <div className="space-y-3">
-                <button className="w-full flex items-center justify-between p-3 rounded-xl border border-border hover:border-primary/50 transition-colors">
+                <button className="w-full flex items-center justify-between p-3 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all">
                   <span className="text-sm font-medium text-foreground">Initial Quotation.pdf</span>
                   <ArrowRight size={16} className="text-muted-foreground" />
                 </button>
-                <button className="w-full flex items-center justify-between p-3 rounded-xl border border-border hover:border-primary/50 transition-colors">
+                <button className="w-full flex items-center justify-between p-3 rounded-xl border border-border hover:border-primary/50 hover:bg-primary/5 transition-all">
                   <span className="text-sm font-medium text-foreground">Design Render.jpg</span>
                   <ArrowRight size={16} className="text-muted-foreground" />
                 </button>
@@ -151,12 +228,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
-  );
-}
-
-// Icon hack to reuse ArrowRight without re-importing above
-function ArrowRight(props: any) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
   );
 }

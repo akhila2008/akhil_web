@@ -44,12 +44,16 @@ export default function AdminDashboardPage() {
             <h1 className="font-serif text-3xl font-bold text-foreground">Business Dashboard</h1>
             <p className="text-muted-foreground">Overview of Floraa Events operations</p>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-3 flex-wrap">
+            <Link href="/admin/custom-requests" className="px-4 py-2 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-sm font-bold hover:bg-orange-200 transition-colors flex items-center shadow-sm relative">
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] flex items-center justify-center rounded-full font-bold shadow-md animate-bounce">1</span>
+              Custom Requests
+            </Link>
             <Link href="/admin/calendar" className="px-4 py-2 bg-card border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors flex items-center shadow-sm">
-              <CalendarIcon size={16} className="mr-2" /> View Calendar
+              <CalendarIcon size={16} className="mr-2" /> Calendar
             </Link>
             <Link href="/admin/decorations" className="px-4 py-2 bg-primary text-card rounded-lg text-sm font-medium hover:opacity-90 transition-opacity flex items-center shadow-sm">
-              <ImageIcon size={16} className="mr-2" /> Manage Decorations
+              <ImageIcon size={16} className="mr-2" /> Gallery
             </Link>
           </div>
         </div>
