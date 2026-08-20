@@ -131,12 +131,10 @@ export default function GalleryPage() {
               >
                 {/* Asymmetric height trick for mock images */}
                 <div className={`relative w-full ${i % 2 === 0 ? 'h-[400px]' : 'h-[300px]'}`}>
-                  <Image 
+                  <img 
                     src={decor.img} 
                     alt={decor.title} 
-                    fill 
-                    className="object-cover transition-transform duration-700 group-hover:scale-105" 
-                    unoptimized={true}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                   />
                   
                   {/* Subtle Gradient Overlay */}
@@ -213,7 +211,7 @@ export default function GalleryPage() {
 
             {/* Image side - Dominant */}
             <div className="w-full min-h-[300px] md:min-h-[500px] md:w-3/5 relative bg-muted flex-shrink-0">
-              <Image src={selectedDecor.img} alt={selectedDecor.title} fill className="object-cover" unoptimized={true} />
+              <img src={selectedDecor.img} alt={selectedDecor.title} className="absolute inset-0 w-full h-full object-cover" />
             </div>
             
             {/* Details side */}
