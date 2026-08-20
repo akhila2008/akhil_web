@@ -140,7 +140,7 @@ export default function CustomRequestPage() {
                 </div>
               ) : (
                 <div className="relative w-full h-80 rounded-3xl overflow-hidden border border-border group">
-                  <Image src={imagePreview} alt="Uploaded Inspiration" fill className="object-cover" />
+                  <Image src={imagePreview} alt="Uploaded Inspiration" fill className="object-cover" unoptimized={true} />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button 
                       type="button"

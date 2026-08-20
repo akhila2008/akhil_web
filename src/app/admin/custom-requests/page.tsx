@@ -110,7 +110,7 @@ export default function AdminCustomRequestsPage() {
                   <tr key={req.id} className="border-b border-border hover:bg-muted/20 transition-colors">
                     <td className="p-4">
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted relative border border-border">
-                        {req.imagePreview ? <Image src={req.imagePreview} alt="upload" fill className="object-cover" /> : <ImageIcon />}
+                        {req.imagePreview ? <Image src={req.imagePreview} alt="upload" fill className="object-cover" unoptimized={true} /> : <ImageIcon />}
                       </div>
                     </td>
                     <td className="p-4 font-bold text-foreground">{req.id}</td>
@@ -167,7 +167,7 @@ export default function AdminCustomRequestsPage() {
               <h3 className="font-bold text-muted-foreground uppercase tracking-wider text-xs mb-4">Customer Inspiration</h3>
               <div className="flex-1 relative rounded-2xl overflow-hidden border border-border shadow-inner min-h-[300px]">
                 {selectedRequest.imagePreview && (
-                  <Image src={selectedRequest.imagePreview} alt="Customer upload" fill className="object-cover" />
+                  <Image src={selectedRequest.imagePreview} alt="Customer upload" fill className="object-cover" unoptimized={true} />
                 )}
               </div>
               <div className="mt-6 bg-card p-4 rounded-xl border border-border">

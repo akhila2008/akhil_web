@@ -167,7 +167,7 @@ export default function DecorationsPage() {
                   <td className="p-4">
                     <div className="w-16 h-12 rounded-lg bg-muted flex items-center justify-center border border-border overflow-hidden relative">
                       {dec.img ? (
-                        <Image src={dec.img} alt={dec.name} fill className="object-cover" />
+                        <Image src={dec.img} alt={dec.name} fill className="object-cover" unoptimized={true} />
                       ) : (
                         <ImageIcon size={16} className="text-muted-foreground" />
                       )}
@@ -228,7 +228,7 @@ export default function DecorationsPage() {
                 </div>
               ) : (
                 <div className="w-full h-full min-h-[300px] relative rounded-2xl overflow-hidden group">
-                  <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+                  <Image src={imagePreview} alt="Preview" fill className="object-cover" unoptimized={true} />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button 
                       type="button"

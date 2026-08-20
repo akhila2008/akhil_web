@@ -57,7 +57,7 @@ export default function DashboardPage() {
                 <div key={req.id} className="bg-card rounded-3xl p-6 border border-border shadow-sm flex flex-col sm:flex-row gap-6 relative overflow-hidden group hover:border-primary/50 transition-colors">
                   <div className="w-full sm:w-32 h-32 rounded-2xl overflow-hidden relative flex-shrink-0 bg-muted border border-border">
                     {req.imagePreview ? (
-                      <Image src={req.imagePreview} alt="Custom Request" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <Image src={req.imagePreview} alt="Custom Request" fill className="object-cover group-hover:scale-105 transition-transform duration-500" unoptimized={true} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground"><ImageIcon /></div>
                     )}
