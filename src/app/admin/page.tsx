@@ -95,7 +95,6 @@ export default function AdminDashboardPage() {
               <h2 className="font-serif text-xl font-bold text-foreground">Recent Event Bookings</h2>
               <p className="text-sm text-muted-foreground mt-1">Review and manage booking statuses directly.</p>
             </div>
-            <button className="text-primary text-sm font-medium hover:underline">View All Bookings</button>
           </div>
           <div className="min-w-[800px]">
             <table className="w-full text-left border-collapse">
