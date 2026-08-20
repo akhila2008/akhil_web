@@ -98,7 +98,14 @@ export default function DashboardPage() {
                       )}
                       
                       {req.status === 'QUOTATION_READY' ? (
-                        <button className="px-4 py-2 bg-primary text-card rounded-lg text-sm font-bold hover:shadow-md transition-shadow">
+                        <button 
+                          onClick={() => {
+                            const updated = customRequests.map(r => r.id === req.id ? {...r, status: 'ACCEPTED'} : r);
+                            setCustomRequests(updated);
+                            localStorage.setItem('customRequests', JSON.stringify(updated));
+                          }}
+                          className="px-4 py-2 bg-primary text-card rounded-lg text-sm font-bold hover:shadow-md transition-shadow"
+                        >
                           Accept Quotation
                         </button>
                       ) : (
