@@ -7,12 +7,12 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
 const occasions = [
-  { id: "wedding", title: "Wedding", desc: "Timeless luxury and elegant traditions.", img: "/hero-bg.jpg" },
-  { id: "haldi", title: "Haldi", desc: "Vibrant marigolds and joyful moments.", img: "/hero-bg.jpg" },
-  { id: "birthday", title: "Birthday", desc: "Pastel themes and magical setups.", img: "/hero-bg.jpg" },
-  { id: "engagement", title: "Engagement", desc: "Romantic blush and champagne decor.", img: "/hero-bg.jpg" },
-  { id: "baby-shower", title: "Baby Shower", desc: "Soft, welcoming and beautiful themes.", img: "/hero-bg.jpg" },
-  { id: "anniversary", title: "Anniversary", desc: "Deep romance with rich burgundy.", img: "/hero-bg.jpg" },
+  { id: "wedding", title: "Wedding", desc: "Timeless luxury and elegant traditions.", img: "/wedding.jpg" },
+  { id: "haldi", title: "Haldi", desc: "Vibrant marigolds and joyful moments.", img: "/haldi.jpg" },
+  { id: "birthday", title: "Birthday", desc: "Pastel themes and magical setups.", img: "/birthday.jpg" },
+  { id: "engagement", title: "Engagement", desc: "Romantic blush and champagne decor.", img: "/engagement.jpg" },
+  { id: "baby-shower", title: "Baby Shower", desc: "Soft, welcoming and beautiful themes.", img: "/baby-shower.jpg" },
+  { id: "anniversary", title: "Anniversary", desc: "Deep romance with rich burgundy.", img: "/anniversary.jpg" },
 ];
 
 export default function Home() {

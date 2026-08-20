@@ -9,13 +9,13 @@ const FILTERS = ["All", "Wedding", "Haldi", "Birthday", "Engagement", "Baby Show
 
 // Mock gallery data
 const GALLERY_ITEMS = [
-  { id: 1, title: "Royal Marigold Stage", category: "Haldi", type: "Stage", price: "35,000", span: "col-span-1 md:col-span-2 row-span-2", img: "/hero-bg.jpg" },
-  { id: 2, title: "Pastel Dream Canopy", category: "Birthday", type: "Ceiling", price: "22,000", span: "col-span-1 row-span-1", img: "/hero-bg.jpg" },
-  { id: 3, title: "Ivory & Champagne Arch", category: "Wedding", type: "Entrance", price: "45,000", span: "col-span-1 row-span-1", img: "/hero-bg.jpg" },
-  { id: 4, title: "Blush Rose Backdrop", category: "Engagement", type: "Backdrop", price: "28,000", span: "col-span-1 md:col-span-2 row-span-1", img: "/hero-bg.jpg" },
-  { id: 5, title: "Terracotta Home Setup", category: "Housewarming", type: "Stage", price: "18,000", span: "col-span-1 row-span-2", img: "/hero-bg.jpg" },
-  { id: 6, title: "Deep Burgundy Romance", category: "Anniversary", type: "Floral", price: "40,000", span: "col-span-1 row-span-1", img: "/hero-bg.jpg" },
-  { id: 7, title: "Fairy Light Canopy", category: "Reception", type: "Lighting", price: "30,000", span: "col-span-1 md:col-span-2 row-span-1", img: "/hero-bg.jpg" },
+  { id: 1, title: "Royal Marigold Stage", category: "Haldi", type: "Stage", price: "35,000", span: "col-span-1 md:col-span-2 row-span-2", img: "/haldi.jpg" },
+  { id: 2, title: "Pastel Dream Canopy", category: "Birthday", type: "Ceiling", price: "22,000", span: "col-span-1 row-span-1", img: "/birthday.jpg" },
+  { id: 3, title: "Ivory & Champagne Arch", category: "Wedding", type: "Entrance", price: "45,000", span: "col-span-1 row-span-1", img: "/wedding.jpg" },
+  { id: 4, title: "Blush Rose Backdrop", category: "Engagement", type: "Backdrop", price: "28,000", span: "col-span-1 md:col-span-2 row-span-1", img: "/engagement.jpg" },
+  { id: 5, title: "Terracotta Home Setup", category: "Housewarming", type: "Stage", price: "18,000", span: "col-span-1 row-span-2", img: "/housewarming.jpg" },
+  { id: 6, title: "Deep Burgundy Romance", category: "Anniversary", type: "Floral", price: "40,000", span: "col-span-1 row-span-1", img: "/anniversary.jpg" },
+  { id: 7, title: "Fairy Light Canopy", category: "Reception", type: "Lighting", price: "30,000", span: "col-span-1 md:col-span-2 row-span-1", img: "/reception.jpg" },
 ];
 
 export default function GalleryPage() {
