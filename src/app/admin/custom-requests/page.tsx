@@ -90,6 +90,7 @@ export default function AdminCustomRequestsPage() {
               <tr className="bg-muted/30 text-muted-foreground text-sm border-b border-border">
                 <th className="p-4 font-medium w-16">Photo</th>
                 <th className="p-4 font-medium">Request ID</th>
+                <th className="p-4 font-medium">Customer Details</th>
                 <th className="p-4 font-medium">Event & Date</th>
                 <th className="p-4 font-medium">Venue</th>
                 <th className="p-4 font-medium">Status</th>
@@ -100,7 +101,7 @@ export default function AdminCustomRequestsPage() {
             <tbody>
               {requests.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-12 text-center text-muted-foreground">
+                  <td colSpan={8} className="p-12 text-center text-muted-foreground">
                     <ImageIcon size={48} className="mx-auto mb-4 opacity-20" />
                     No custom decoration requests yet.
                   </td>
@@ -114,6 +115,10 @@ export default function AdminCustomRequestsPage() {
                       </div>
                     </td>
                     <td className="p-4 font-bold text-foreground">{req.id}</td>
+                    <td className="p-4">
+                      <div className="font-medium text-foreground">{req.customerName || 'N/A'}</div>
+                      <div className="text-sm text-muted-foreground">{req.customerPhone || 'N/A'}</div>
+                    </td>
                     <td className="p-4">
                       <div className="font-medium text-foreground">{req.eventType}</div>
                       <div className="text-sm text-muted-foreground">{req.eventDate}</div>
@@ -182,6 +187,7 @@ export default function AdminCustomRequestsPage() {
                   {selectedRequest.status.replace('_', ' ')}
                 </span>
                 <h2 className="font-serif text-2xl font-bold text-foreground">Request {selectedRequest.id}</h2>
+                <p className="text-muted-foreground text-sm mt-1">{selectedRequest.customerName || 'No Name Provided'} • {selectedRequest.customerPhone || 'No Phone'}</p>
                 <p className="text-muted-foreground text-sm mt-1">{selectedRequest.eventType} • {selectedRequest.eventDate} • {selectedRequest.venue}</p>
               </div>
 

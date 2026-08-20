@@ -14,6 +14,8 @@ export default function CustomRequestPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   
   const [formData, setFormData] = useState({
+    customerName: "",
+    customerPhone: "",
     eventType: "Wedding",
     eventDate: "",
     venue: "",
@@ -167,6 +169,25 @@ export default function CustomRequestPage() {
             
             {/* Form Details */}
             <div className="w-full md:w-1/2 p-8 md:p-12 space-y-6">
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-foreground mb-2">Full Name</label>
+                  <input 
+                    type="text" required placeholder="Your name"
+                    value={formData.customerName} onChange={e => setFormData({...formData, customerName: e.target.value})}
+                    className="w-full p-4 rounded-xl border border-border bg-card focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-foreground mb-2">Phone Number</label>
+                  <input 
+                    type="tel" required placeholder="Your phone number"
+                    value={formData.customerPhone} onChange={e => setFormData({...formData, customerPhone: e.target.value})}
+                    className="w-full p-4 rounded-xl border border-border bg-card focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                  />
+                </div>
+              </div>
               
               <div>
                 <label className="block text-sm font-bold text-foreground mb-2">Event Occasion</label>
