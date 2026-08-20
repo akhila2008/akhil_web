@@ -31,8 +31,12 @@ export default function CustomRequestPage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const url = URL.createObjectURL(e.target.files[0]);
-      setImagePreview(url);
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -116,8 +120,12 @@ export default function CustomRequestPage() {
                     e.preventDefault();
                     setIsDragging(false);
                     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                      const url = URL.createObjectURL(e.dataTransfer.files[0]);
-                      setImagePreview(url);
+                      const file = e.dataTransfer.files[0];
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setImagePreview(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
                     }
                   }}
                   onClick={() => fileInputRef.current?.click()}
