@@ -136,6 +136,7 @@ export default function GalleryPage() {
                     alt={decor.title} 
                     fill 
                     className="object-cover transition-transform duration-700 group-hover:scale-105" 
+                    unoptimized={true}
                   />
                   
                   {/* Subtle Gradient Overlay */}
@@ -212,7 +213,7 @@ export default function GalleryPage() {
 
             {/* Image side - Dominant */}
             <div className="w-full h-1/2 md:h-full md:w-3/5 relative bg-muted">
-              <Image src={selectedDecor.img} alt={selectedDecor.title} fill className="object-cover" />
+              <Image src={selectedDecor.img} alt={selectedDecor.title} fill className="object-cover" unoptimized={true} />
             </div>
             
             {/* Details side */}
