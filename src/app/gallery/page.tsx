@@ -16,9 +16,13 @@ const DECORATIONS = [
   { id: 6, title: "Deep Burgundy Romance", occasion: "Anniversary", price: 40000, img: "/anniversary.jpg", desc: "Deep red roses, candlelight, and a premium intimate setup." },
   { id: 7, title: "Fairy Light Canopy", occasion: "Reception", price: 30000, img: "/reception.jpg", desc: "Crystal chandeliers and plum fabric drapes for a grand reception stage." },
   { id: 8, title: "Soft Baby Blue Florals", occasion: "Baby Shower", price: 25000, img: "/baby-shower.jpg", desc: "Delicate baby blue and pale pink floral arrangements." },
-  // Duplicate some to make masonry look good
-  { id: 9, title: "Luxury Floral Mandap", occasion: "Wedding", price: 85000, img: "/wedding.jpg", desc: "Traditional Indian wedding mandap with luxury floral styling." },
-  { id: 10, title: "Yellow Drapes Backdrop", occasion: "Haldi", price: 15000, img: "/haldi.jpg", desc: "Simple yet elegant yellow and orange backdrop for intimate Haldi ceremonies." },
+  
+  // New Expanded Designs
+  { id: 9, title: "Luxury Floral Mandap", occasion: "Wedding", price: 85000, img: "/wedding-2.jpg", desc: "Grand ceiling decoration with hanging crystal chandeliers and lush white floral suspensions." },
+  { id: 10, title: "Saffron & Marigold Canopy", occasion: "Haldi", price: 28000, img: "/haldi-2.jpg", desc: "Vibrant backdrop decoration with hanging marigold garlands and traditional brass urli." },
+  { id: 11, title: "Sunshine Seating Lounge", occasion: "Haldi", price: 24000, img: "/haldi-3.jpg", desc: "Comfortable seating arrangement under a yellow floral canopy with bright cushions." },
+  { id: 12, title: "Neon Glow Celebration", occasion: "Birthday", price: 32000, img: "/birthday-2.jpg", desc: "Premium kids birthday setup with pastel blue balloons and a glowing neon sign backdrop." },
+  { id: 13, title: "Peach Garden Arch", occasion: "Baby Shower", price: 35000, img: "/baby-shower-2.jpg", desc: "Soft cream and peach outdoor floral arch with elegant white seating in a sunny garden." },
 ];
 
 const OCCASIONS = [
