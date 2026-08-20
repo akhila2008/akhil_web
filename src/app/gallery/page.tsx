@@ -38,13 +38,26 @@ const OCCASIONS = [
 
 export default function GalleryPage() {
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
-  const [selectedDecor, setSelectedDecor] = useState<typeof DECORATIONS[0] | null>(null);
+  const [selectedDecor, setSelectedDecor] = useState<any | null>(null);
+  const [allDecorations, setAllDecorations] = useState<any[]>(DECORATIONS);
   
   const { setTheme } = useTheme();
 
+  // Load dynamically uploaded decorations from the Admin Panel
+  React.useEffect(() => {
+    const saved = localStorage.getItem('adminDecorations');
+    if (saved) {
+      const adminDecors = JSON.parse(saved);
+      // Merge admin uploaded decors (which have status 'Active') with our base mock DECORATIONS
+      // Ensure we don't duplicate hardcoded ones (mock ids are short, admin ids are timestamps)
+      const newAdminDecors = adminDecors.filter((d: any) => d.status === 'Active' && !DECORATIONS.find(orig => orig.id.toString() === d.id.toString()));
+      setAllDecorations([...newAdminDecors, ...DECORATIONS]);
+    }
+  }, []);
+
   // Filter logic
   const filteredDecorations = selectedOccasion 
-    ? DECORATIONS.filter(decor => decor.occasion === selectedOccasion)
+    ? allDecorations.filter(decor => decor.occasion === selectedOccasion)
     : [];
 
   const handleOccasionClick = (occasion: string) => {
