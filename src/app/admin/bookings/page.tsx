@@ -1,39 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Users, Calendar as CalendarIcon, IndianRupee, Package, Image as ImageIcon, CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle, ArrowLeft } from "lucide-react";
 
-export default function AdminDashboardPage() {
-  const stats = [
-    { label: "Total Revenue", value: "₹24,50,000", icon: <IndianRupee size={24} className="text-primary" />, trend: "+12%" },
-    { label: "Upcoming Events", value: "14", icon: <CalendarIcon size={24} className="text-primary" />, trend: "+3" },
-    { label: "Pending Requests", value: "5", icon: <Package size={24} className="text-primary" />, trend: "-2" },
-    { label: "Total Customers", value: "89", icon: <Users size={24} className="text-primary" />, trend: "+8%" }
-  ];
-
-  const [recentBookings, setRecentBookings] = useState([
+export default function AdminBookingsPage() {
+  const [allBookings, setAllBookings] = useState<any[]>([
     { id: "FE-8291", customerName: "Anjali Gupta", occasion: "Wedding", date: "15 Dec 2026", status: "Confirmed", estimatedPrice: "₹4,50,000" },
     { id: "FE-8292", customerName: "Rahul Sharma", occasion: "Haldi", date: "18 Dec 2026", status: "Design Discussion", estimatedPrice: "₹85,000" },
     { id: "FE-8293", customerName: "Priya Singh", occasion: "Birthday", date: "22 Dec 2026", status: "New Request", estimatedPrice: "₹45,000" },
     { id: "FE-8294", customerName: "Vikram Reddy", occasion: "Reception", date: "05 Jan 2027", status: "Advance Paid", estimatedPrice: "₹2,10,000" },
   ]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const saved = localStorage.getItem('standardBookings');
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed.length > 0) {
-        setRecentBookings(parsed);
+        setAllBookings(parsed);
       }
     }
   }, []);
 
   const handleStatusChange = (id: string, newStatus: string) => {
-    const updated = recentBookings.map(booking => 
+    const updated = allBookings.map(booking => 
       booking.id === id ? { ...booking, status: newStatus } : booking
     );
-    setRecentBookings(updated);
+    setAllBookings(updated);
     localStorage.setItem('standardBookings', JSON.stringify(updated));
   };
 
@@ -41,7 +34,7 @@ export default function AdminDashboardPage() {
     switch (status) {
       case 'Confirmed': return 'bg-green-100 text-green-700 border-green-200';
       case 'Rejected': return 'bg-red-100 text-red-700 border-red-200';
-      case 'New': return 'bg-blue-100 text-blue-700 border-blue-200';
+      case 'New Request': return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'Advance Paid': return 'bg-purple-100 text-purple-700 border-purple-200';
       case 'Completed': return 'bg-teal-100 text-teal-700 border-teal-200';
       default: return 'bg-orange-100 text-orange-700 border-orange-200';
@@ -51,51 +44,20 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-muted/30 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex items-center mb-8">
+          <Link href="/admin" className="mr-4 p-2 bg-card border border-border rounded-lg hover:bg-muted transition-colors shadow-sm">
+            <ArrowLeft size={20} />
+          </Link>
           <div>
-            <h1 className="font-serif text-3xl font-bold text-foreground">Business Dashboard</h1>
-            <p className="text-muted-foreground">Overview of Floraa Events operations</p>
-          </div>
-          <div className="flex gap-3 flex-wrap">
-            <Link href="/admin/custom-requests" className="px-4 py-2 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-sm font-bold hover:bg-orange-200 transition-colors flex items-center shadow-sm relative">
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-[10px] flex items-center justify-center rounded-full font-bold shadow-md animate-bounce">1</span>
-              Custom Requests
-            </Link>
-            <Link href="/admin/calendar" className="px-4 py-2 bg-card border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors flex items-center shadow-sm">
-              <CalendarIcon size={16} className="mr-2" /> Calendar
-            </Link>
-            <Link href="/admin/decorations" className="px-4 py-2 bg-primary text-card rounded-lg text-sm font-medium hover:opacity-90 transition-opacity flex items-center shadow-sm">
-              <ImageIcon size={16} className="mr-2" /> Gallery
-            </Link>
+            <h1 className="font-serif text-3xl font-bold text-foreground">All Customer Bookings</h1>
+            <p className="text-muted-foreground">Manage and track all standard event bookings</p>
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          {stats.map((stat, i) => (
-            <div key={i} className="bg-card p-6 rounded-2xl border border-border shadow-sm flex items-start justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
-                <h3 className="text-2xl font-bold text-foreground mb-2">{stat.value}</h3>
-                <span className={`text-xs font-medium ${stat.trend.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
-                  {stat.trend} from last month
-                </span>
-              </div>
-              <div className="p-3 bg-primary/10 rounded-xl">
-                {stat.icon}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Recent Bookings Table */}
         <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden overflow-x-auto">
-          <div className="p-6 border-b border-border flex justify-between items-center bg-muted/10">
-            <div>
-              <h2 className="font-serif text-xl font-bold text-foreground">Recent Event Bookings</h2>
-              <p className="text-sm text-muted-foreground mt-1">Review and manage booking statuses directly.</p>
-            </div>
-            <Link href="/admin/bookings" className="text-primary text-sm font-medium hover:underline">View All Bookings</Link>
+          <div className="p-6 border-b border-border bg-muted/10">
+            <h2 className="font-serif text-xl font-bold text-foreground">Complete Booking Registry</h2>
+            <p className="text-sm text-muted-foreground mt-1">Total Bookings: {allBookings.length}</p>
           </div>
           <div className="min-w-[800px]">
             <table className="w-full text-left border-collapse">
@@ -111,7 +73,7 @@ export default function AdminDashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {recentBookings.slice(0, 5).map((booking) => (
+                {allBookings.map((booking) => (
                   <tr key={booking.id} className="border-b border-border hover:bg-muted/20 transition-colors">
                     <td className="p-4 font-medium text-foreground">{booking.id}</td>
                     <td className="p-4 text-foreground">{booking.customerName}</td>
@@ -119,7 +81,6 @@ export default function AdminDashboardPage() {
                     <td className="p-4 text-muted-foreground">{booking.date}</td>
                     <td className="p-4 font-medium text-foreground">{booking.estimatedPrice?.toString().includes('₹') ? booking.estimatedPrice : `₹${booking.estimatedPrice}`}</td>
                     <td className="p-4">
-                      {/* Interactive Status Dropdown */}
                       <select
                         value={booking.status}
                         onChange={(e) => handleStatusChange(booking.id, e.target.value)}
@@ -160,9 +121,13 @@ export default function AdminDashboardPage() {
                 ))}
               </tbody>
             </table>
+            {allBookings.length === 0 && (
+              <div className="p-12 text-center text-muted-foreground">
+                No bookings found.
+              </div>
+            )}
           </div>
         </div>
-
       </div>
     </div>
   );
