@@ -24,7 +24,7 @@ const DECORATIONS = [
   { id: 13, title: "Peach Garden Arch", occasion: "Baby Shower", price: 35000, img: "/baby-shower-2.jpg" },
 ];
 
-export default function BookingPage() {
+function BookingForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { setTheme } = useTheme();
@@ -216,5 +216,13 @@ export default function BookingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <React.Suspense fallback={<div className="min-h-screen bg-muted/20 flex items-center justify-center"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+      <BookingForm />
+    </React.Suspense>
   );
 }
