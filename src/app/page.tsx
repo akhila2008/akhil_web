@@ -15,8 +15,11 @@ const occasions = [
   { id: "anniversary", title: "Anniversary", desc: "Deep romance with rich burgundy.", img: "/anniversary.jpg" },
 ];
 
+import { useRouter } from "next/navigation";
+
 export default function Home() {
   const { setTheme } = useTheme();
+  const router = useRouter();
 
   return (
     <div className="flex flex-col w-full min-h-screen">
@@ -88,7 +91,7 @@ export default function Home() {
                 onMouseLeave={() => setTheme("default")}
                 onClick={() => {
                   setTheme(occ.id as any);
-                  // In a real app, this would route to /occasions/[id]
+                  router.push(`/gallery?occasion=${encodeURIComponent(occ.title)}`);
                 }}
               >
                 <div className="relative h-64 w-full overflow-hidden">

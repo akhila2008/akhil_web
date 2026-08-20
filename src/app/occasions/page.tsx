@@ -58,7 +58,7 @@ export default function OccasionsPage() {
                   {occ.desc}
                 </p>
                 <Link 
-                  href={`/gallery`}
+                  href={`/gallery?occasion=${encodeURIComponent(occ.title)}`}
                   onClick={() => setTheme(occ.id as any)}
                   className="inline-flex items-center text-accent text-sm font-semibold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 delay-150 hover:text-white"
                 >

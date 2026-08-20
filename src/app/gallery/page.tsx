@@ -45,6 +45,16 @@ export default function GalleryPage() {
 
   // Load dynamically uploaded decorations from the Admin Panel
   React.useEffect(() => {
+    // 1. Check URL for pre-selected occasion (from Home or Occasions page)
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlOccasion = params.get('occasion');
+      if (urlOccasion) {
+        setSelectedOccasion(urlOccasion);
+      }
+    }
+
+    // 2. Load custom decorations from local storage
     const saved = localStorage.getItem('adminDecorations');
     if (saved) {
       const adminDecors = JSON.parse(saved);
