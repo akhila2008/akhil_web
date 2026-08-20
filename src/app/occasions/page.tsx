@@ -58,11 +58,11 @@ export default function OccasionsPage() {
                   {occ.desc}
                 </p>
                 <Link 
-                  href={`/build`}
+                  href={`/gallery`}
                   onClick={() => setTheme(occ.id as any)}
                   className="inline-flex items-center text-accent text-sm font-semibold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 delay-150 hover:text-white"
                 >
-                  Plan this event <ArrowRight size={16} className="ml-2" />
+                  Explore Designs <ArrowRight size={16} className="ml-2" />
                 </Link>
               </div>
               

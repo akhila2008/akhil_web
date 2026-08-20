@@ -51,10 +51,10 @@ export default function Home() {
           
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 animate-fade-in" style={{ animationDelay: '0.8s' }}>
             <Link 
-              href="/build" 
+              href="/gallery" 
               className="px-8 py-4 rounded-full bg-accent text-accent-foreground font-semibold text-lg transition-transform hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center justify-center"
             >
-              Plan My Event
+              Explore Gallery
             </Link>
             <Link 
               href="/gallery" 

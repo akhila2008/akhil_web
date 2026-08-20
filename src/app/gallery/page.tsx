@@ -237,16 +237,10 @@ export default function GalleryPage() {
               
               <div className="flex flex-col gap-4 mt-auto">
                 <Link 
-                  href={`/build?decor=${selectedDecor.id}`}
+                  href={`/book?decor=${selectedDecor.id}`}
                   className="w-full py-4 bg-primary text-card text-center rounded-xl font-bold text-lg hover:shadow-xl hover:-translate-y-1 transition-all"
                 >
                   Select This Design
-                </Link>
-                <Link 
-                  href={`/build?decor=${selectedDecor.id}&customize=true`}
-                  className="w-full py-4 bg-card border-2 border-border text-foreground text-center rounded-xl font-bold text-lg hover:bg-muted transition-all"
-                >
-                  Customize
                 </Link>
               </div>
             </div>
