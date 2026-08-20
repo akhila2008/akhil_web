@@ -212,7 +212,7 @@ export default function GalleryPage() {
             </button>
 
             {/* Image side - Dominant */}
-            <div className="w-full h-1/2 md:h-full md:w-3/5 relative bg-muted">
+            <div className="w-full min-h-[300px] md:min-h-[500px] md:w-3/5 relative bg-muted flex-shrink-0">
               <Image src={selectedDecor.img} alt={selectedDecor.title} fill className="object-cover" unoptimized={true} />
             </div>
             
