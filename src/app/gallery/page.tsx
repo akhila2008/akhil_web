@@ -22,11 +22,15 @@ const OCCASION_IMAGES: Record<string, string[]> = {
 
 const DECORATIONS = OCCASION_NAMES.flatMap((occ, oIdx) => {
   return Array.from({ length: 10 }).map((_, i) => {
-    const images = OCCASION_IMAGES[occ] || OCCASION_IMAGES.Wedding;
-    const img = images[i % images.length];
+    // Generate a unique image for each of the 80 items using a stable lock seed
+    const seed = (oIdx * 10) + i + 1;
+    const category = occ.toLowerCase().replace(" ", "");
+    // Use LoremFlickr to fetch unique but stable photos for each category
+    const img = `https://loremflickr.com/800/600/${category},decoration?lock=${seed}`;
+    
     const styles = ["Premium", "Luxury", "Classic", "Modern", "Traditional", "Elegant", "Vibrant", "Minimalist", "Grand", "Royal"];
     return {
-      id: (oIdx * 10) + i + 1,
+      id: seed,
       title: `${occ} Design - ${styles[i]}`,
       occasion: occ,
       price: 15000 + (Math.floor(Math.random() * 50) * 1000),
