@@ -6,64 +6,19 @@ import Link from "next/link";
 import { ArrowRight, Upload, X, Check, Search } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
-// Strict, non-reusable curated list of actual stage decorations we have local images for.
-// No generic random images, no sharing images across unrelated categories.
-const DECORATIONS = [
-  // Wedding (2 images)
-  { id: 1, title: "Royal Ivory Floral Stage", occasion: "Wedding", price: 45000, img: "/wedding.jpg", desc: "Luxurious entrance arch featuring premium ivory roses and champagne accents. Complete stage setup." },
-  { id: 2, title: "Grand Crystal Mandap", occasion: "Wedding", price: 85000, img: "/wedding-2.jpg", desc: "Grand ceiling decoration with hanging crystal chandeliers and lush white floral suspensions for a luxury wedding." },
-  
-  // Haldi (3 images)
-  { id: 3, title: "Traditional Marigold Backdrop", occasion: "Haldi", price: 35000, img: "/haldi.jpg", desc: "A vibrant yellow stage setup featuring marigold strings, saffron drapes, and traditional brass props." },
-  { id: 4, title: "Saffron Floral Canopy", occasion: "Haldi", price: 28000, img: "/haldi-2.jpg", desc: "Vibrant backdrop decoration with hanging marigold garlands and traditional brass urli for Haldi ceremonies." },
-  { id: 5, title: "Sunshine Seating Stage", occasion: "Haldi", price: 24000, img: "/haldi-3.jpg", desc: "Comfortable seating arrangement stage under a yellow floral canopy with bright cushions." },
-  
-  // Birthday (2 images)
-  { id: 6, title: "Pastel Dream Stage", occasion: "Birthday", price: 22000, img: "/birthday.jpg", desc: "Magical pastel balloons and soft floral arrangements perfect for an elegant birthday stage." },
-  { id: 7, title: "Neon Glow Birthday Backdrop", occasion: "Birthday", price: 32000, img: "/birthday-2.jpg", desc: "Premium kids birthday stage setup with pastel blue balloons and a glowing neon sign backdrop." },
-  
-  // Engagement (1 image)
-  { id: 8, title: "Blush Rose Couple Stage", occasion: "Engagement", price: 28000, img: "/engagement.jpg", desc: "Romantic blush pink backdrop with warm lighting and elegant stage seating for the engaged couple." },
-  
-  // Baby Shower (2 images)
-  { id: 9, title: "Soft Baby Blue Stage", occasion: "Baby Shower", price: 25000, img: "/baby-shower.jpg", desc: "Delicate baby blue and pale pink floral backdrop arrangements for a beautiful baby shower stage." },
-  { id: 10, title: "Peach Floral Arch Stage", occasion: "Baby Shower", price: 35000, img: "/baby-shower-2.jpg", desc: "Soft cream and peach floral arch with elegant white seating in a beautiful baby shower setup." },
-  
-  // Anniversary (1 image)
-  { id: 11, title: "Deep Burgundy Romance", occasion: "Anniversary", price: 40000, img: "/anniversary.jpg", desc: "Deep red roses, candlelight, and a premium intimate anniversary stage setup." },
-  
-  // Reception (1 image)
-  { id: 12, title: "Fairy Light Reception Stage", occasion: "Reception", price: 30000, img: "/reception.jpg", desc: "Crystal chandeliers and plum fabric drapes for a grand reception stage." },
-  
-  // Housewarming (1 image)
-  { id: 13, title: "Terracotta Welcome Stage", occasion: "Housewarming", price: 18000, img: "/housewarming.jpg", desc: "Traditional terracotta pots and sage green foliage stage setup for a warm welcoming home ceremony." },
-];
-
-// Expanded Occasions List as requested
-const OCCASIONS = [
-  { name: "Wedding", img: "/wedding.jpg" },
-  { name: "Engagement", img: "/engagement.jpg" },
-  { name: "Reception", img: "/reception.jpg" },
-  { name: "Birthday", img: "/birthday.jpg" },
-  { name: "Haldi", img: "/haldi.jpg" },
-  { name: "Mehendi", img: null },
-  { name: "Baby Shower", img: "/baby-shower.jpg" },
-  { name: "Anniversary", img: "/anniversary.jpg" },
-  { name: "Naming Ceremony", img: null },
-  { name: "Corporate Event", img: null },
-  { name: "Housewarming", img: "/housewarming.jpg" }
-];
+import { DEFAULT_DECORATIONS, DEFAULT_OCCASIONS } from "@/lib/defaultData";
 
 export default function GalleryPage() {
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
   const [selectedDecor, setSelectedDecor] = useState<any | null>(null);
-  const [allDecorations, setAllDecorations] = useState<any[]>(DECORATIONS);
+  const [allDecorations, setAllDecorations] = useState<any[]>([]);
+  const [allOccasions, setAllOccasions] = useState<any[]>([]);
   
   const { setTheme } = useTheme();
 
-  // Load dynamically uploaded decorations from the Admin Panel
+  // Load dynamic data from local storage
   React.useEffect(() => {
-    // 1. Check URL for pre-selected occasion (from Home or Occasions page)
+    // 1. Check URL for pre-selected occasion
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const urlOccasion = params.get('occasion');
@@ -72,14 +27,20 @@ export default function GalleryPage() {
       }
     }
 
-    // 2. Load custom decorations from local storage
-    const saved = localStorage.getItem('adminDecorations');
-    if (saved) {
-      const adminDecors = JSON.parse(saved);
-      // Merge admin uploaded decors (which have status 'Active') with our base mock DECORATIONS
-      // Ensure we don't duplicate hardcoded ones (mock ids are short, admin ids are timestamps)
-      const newAdminDecors = adminDecors.filter((d: any) => d.status === 'Active' && !DECORATIONS.find(orig => orig.id.toString() === d.id.toString()));
-      setAllDecorations([...newAdminDecors, ...DECORATIONS]);
+    // 2. Load custom decorations from local storage (or fallback to default)
+    const savedDecors = localStorage.getItem('adminDecorations');
+    if (savedDecors) {
+      setAllDecorations(JSON.parse(savedDecors).filter((d: any) => d.status === 'Active'));
+    } else {
+      setAllDecorations(DEFAULT_DECORATIONS);
+    }
+
+    // 3. Load Occasions from local storage (or fallback to default)
+    const savedOccasions = localStorage.getItem('adminOccasions');
+    if (savedOccasions) {
+      setAllOccasions(JSON.parse(savedOccasions));
+    } else {
+      setAllOccasions(DEFAULT_OCCASIONS);
     }
   }, []);
 
@@ -116,15 +77,15 @@ export default function GalleryPage() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {OCCASIONS.map((occ) => (
+            {allOccasions.map((occ) => (
               <div 
-                key={occ.name}
-                onClick={() => handleOccasionClick(occ.name)}
+                key={occ.id || occ.title}
+                onClick={() => handleOccasionClick(occ.title)}
                 className="group cursor-pointer rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card"
               >
                 <div className="relative h-48 w-full overflow-hidden bg-muted flex items-center justify-center">
                   {occ.img ? (
-                    <Image src={occ.img} alt={occ.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <Image src={occ.img} alt={occ.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
                   ) : (
                     <div className="text-muted-foreground flex flex-col items-center">
                       <Search size={32} className="mb-2 opacity-20" />
@@ -133,7 +94,7 @@ export default function GalleryPage() {
                   )}
                 </div>
                 <div className="p-4 text-center">
-                  <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">{occ.name}</h3>
+                  <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">{occ.title}</h3>
                 </div>
               </div>
             ))}

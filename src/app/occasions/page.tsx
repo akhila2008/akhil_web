@@ -6,22 +6,20 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
-const occasionsList = [
-  { id: "wedding", title: "Wedding", desc: "Timeless luxury and elegant traditions.", img: "/wedding.jpg" },
-  { id: "engagement", title: "Engagement", desc: "Romantic blush and champagne decor.", img: "/engagement.jpg" },
-  { id: "reception", title: "Reception", desc: "Grandeur with gold and deep plum.", img: "/reception.jpg" },
-  { id: "birthday", title: "Birthday", desc: "Pastel themes and magical setups.", img: "/birthday.jpg" },
-  { id: "haldi", title: "Haldi", desc: "Vibrant marigolds and joyful moments.", img: "/haldi.jpg" },
-  { id: "mehendi", title: "Mehendi", desc: "Green foliage and vibrant colorful decor.", img: null },
-  { id: "baby-shower", title: "Baby Shower", desc: "Soft, welcoming and beautiful themes.", img: "/baby-shower.jpg" },
-  { id: "anniversary", title: "Anniversary", desc: "Deep romance with rich burgundy.", img: "/anniversary.jpg" },
-  { id: "naming-ceremony", title: "Naming Ceremony", desc: "Traditional setups for new beginnings.", img: null },
-  { id: "corporate-event", title: "Corporate Event", desc: "Professional and elegant corporate setups.", img: null },
-  { id: "housewarming", title: "Housewarming", desc: "Warm terracotta and sage greens.", img: "/housewarming.jpg" },
-];
+import { DEFAULT_OCCASIONS } from "@/lib/defaultData";
 
 export default function OccasionsPage() {
   const { setTheme } = useTheme();
+  const [occasionsList, setOccasionsList] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const saved = localStorage.getItem('adminOccasions');
+    if (saved) {
+      setOccasionsList(JSON.parse(saved));
+    } else {
+      setOccasionsList(DEFAULT_OCCASIONS);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background py-16 px-4 sm:px-6 lg:px-8">
