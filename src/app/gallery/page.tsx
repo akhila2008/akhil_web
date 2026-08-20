@@ -7,23 +7,34 @@ import { ArrowRight, Upload, X, Check, Search } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
 // Extensive mock database for the visual showroom
-const DECORATIONS = [
-  { id: 1, title: "Royal Marigold Stage", occasion: "Haldi", price: 35000, img: "/haldi.jpg", desc: "A vibrant yellow setup featuring marigold strings, saffron drapes, and traditional brass props." },
-  { id: 2, title: "Pastel Dream Canopy", occasion: "Birthday", price: 22000, img: "/birthday.jpg", desc: "Magical pastel balloons and soft floral arrangements perfect for an elegant birthday." },
-  { id: 3, title: "Ivory & Champagne Arch", occasion: "Wedding", price: 45000, img: "/wedding.jpg", desc: "Luxurious entrance arch featuring premium ivory roses and champagne accents." },
-  { id: 4, title: "Blush Rose Backdrop", occasion: "Engagement", price: 28000, img: "/engagement.jpg", desc: "Romantic blush pink backdrop with warm lighting and elegant seating for the couple." },
-  { id: 5, title: "Terracotta Home Setup", occasion: "Housewarming", price: 18000, img: "/housewarming.jpg", desc: "Traditional terracotta pots and sage green foliage for a warm welcoming home." },
-  { id: 6, title: "Deep Burgundy Romance", occasion: "Anniversary", price: 40000, img: "/anniversary.jpg", desc: "Deep red roses, candlelight, and a premium intimate setup." },
-  { id: 7, title: "Fairy Light Canopy", occasion: "Reception", price: 30000, img: "/reception.jpg", desc: "Crystal chandeliers and plum fabric drapes for a grand reception stage." },
-  { id: 8, title: "Soft Baby Blue Florals", occasion: "Baby Shower", price: 25000, img: "/baby-shower.jpg", desc: "Delicate baby blue and pale pink floral arrangements." },
-  
-  // New Expanded Designs
-  { id: 9, title: "Luxury Floral Mandap", occasion: "Wedding", price: 85000, img: "/wedding-2.jpg", desc: "Grand ceiling decoration with hanging crystal chandeliers and lush white floral suspensions." },
-  { id: 10, title: "Saffron & Marigold Canopy", occasion: "Haldi", price: 28000, img: "/haldi-2.jpg", desc: "Vibrant backdrop decoration with hanging marigold garlands and traditional brass urli." },
-  { id: 11, title: "Sunshine Seating Lounge", occasion: "Haldi", price: 24000, img: "/haldi-3.jpg", desc: "Comfortable seating arrangement under a yellow floral canopy with bright cushions." },
-  { id: 12, title: "Neon Glow Celebration", occasion: "Birthday", price: 32000, img: "/birthday-2.jpg", desc: "Premium kids birthday setup with pastel blue balloons and a glowing neon sign backdrop." },
-  { id: 13, title: "Peach Garden Arch", occasion: "Baby Shower", price: 35000, img: "/baby-shower-2.jpg", desc: "Soft cream and peach outdoor floral arch with elegant white seating in a sunny garden." },
-];
+// Dynamically generate 10 decorations for each occasion to populate the visual showroom
+const OCCASION_NAMES = ["Wedding", "Haldi", "Birthday", "Engagement", "Baby Shower", "Anniversary", "Reception", "Housewarming"];
+const OCCASION_IMAGES: Record<string, string[]> = {
+  Wedding: ["/wedding.jpg", "/wedding-2.jpg"],
+  Haldi: ["/haldi.jpg", "/haldi-2.jpg", "/haldi-3.jpg"],
+  Birthday: ["/birthday.jpg", "/birthday-2.jpg"],
+  Engagement: ["/engagement.jpg"],
+  "Baby Shower": ["/baby-shower.jpg", "/baby-shower-2.jpg"],
+  Anniversary: ["/anniversary.jpg"],
+  Reception: ["/reception.jpg"],
+  Housewarming: ["/housewarming.jpg"]
+};
+
+const DECORATIONS = OCCASION_NAMES.flatMap((occ, oIdx) => {
+  return Array.from({ length: 10 }).map((_, i) => {
+    const images = OCCASION_IMAGES[occ] || OCCASION_IMAGES.Wedding;
+    const img = images[i % images.length];
+    const styles = ["Premium", "Luxury", "Classic", "Modern", "Traditional", "Elegant", "Vibrant", "Minimalist", "Grand", "Royal"];
+    return {
+      id: (oIdx * 10) + i + 1,
+      title: `${occ} Design - ${styles[i]}`,
+      occasion: occ,
+      price: 15000 + (Math.floor(Math.random() * 50) * 1000),
+      img: img,
+      desc: `A stunning ${styles[i].toLowerCase()} ${occ.toLowerCase()} setup featuring high-quality floral arrangements, beautiful lighting, and premium props tailored perfectly for your special day.`
+    };
+  });
+});
 
 const OCCASIONS = [
   { name: "Wedding", img: "/wedding.jpg" },
