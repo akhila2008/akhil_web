@@ -8,12 +8,15 @@ import { useTheme } from "@/components/ThemeProvider";
 
 const occasionsList = [
   { id: "wedding", title: "Wedding", desc: "Timeless luxury and elegant traditions.", img: "/wedding.jpg" },
-  { id: "haldi", title: "Haldi", desc: "Vibrant marigolds and joyful moments.", img: "/haldi.jpg" },
-  { id: "birthday", title: "Birthday", desc: "Pastel themes and magical setups.", img: "/birthday.jpg" },
   { id: "engagement", title: "Engagement", desc: "Romantic blush and champagne decor.", img: "/engagement.jpg" },
+  { id: "reception", title: "Reception", desc: "Grandeur with gold and deep plum.", img: "/reception.jpg" },
+  { id: "birthday", title: "Birthday", desc: "Pastel themes and magical setups.", img: "/birthday.jpg" },
+  { id: "haldi", title: "Haldi", desc: "Vibrant marigolds and joyful moments.", img: "/haldi.jpg" },
+  { id: "mehendi", title: "Mehendi", desc: "Green foliage and vibrant colorful decor.", img: null },
   { id: "baby-shower", title: "Baby Shower", desc: "Soft, welcoming and beautiful themes.", img: "/baby-shower.jpg" },
   { id: "anniversary", title: "Anniversary", desc: "Deep romance with rich burgundy.", img: "/anniversary.jpg" },
-  { id: "reception", title: "Reception", desc: "Grandeur with gold and deep plum.", img: "/reception.jpg" },
+  { id: "naming-ceremony", title: "Naming Ceremony", desc: "Traditional setups for new beginnings.", img: null },
+  { id: "corporate-event", title: "Corporate Event", desc: "Professional and elegant corporate setups.", img: null },
   { id: "housewarming", title: "Housewarming", desc: "Warm terracotta and sage greens.", img: "/housewarming.jpg" },
 ];
 
@@ -42,13 +45,19 @@ export default function OccasionsPage() {
               onMouseLeave={() => setTheme("default")}
               onClick={() => setTheme(occ.id as any)}
             >
-              <div className="relative h-80 w-full overflow-hidden">
-                <Image 
-                  src={occ.img} 
-                  alt={occ.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+              <div className="relative h-80 w-full overflow-hidden bg-muted flex items-center justify-center">
+                {occ.img ? (
+                  <Image 
+                    src={occ.img} 
+                    alt={occ.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : (
+                  <div className="text-muted-foreground flex flex-col items-center">
+                    <span className="text-sm font-medium opacity-50">Image Coming Soon</span>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300" />
               </div>
               

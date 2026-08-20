@@ -6,48 +6,51 @@ import Link from "next/link";
 import { ArrowRight, Upload, X, Check, Search } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 
-// Extensive mock database for the visual showroom
-// Dynamically generate 10 decorations for each occasion to populate the visual showroom
-const OCCASION_NAMES = ["Wedding", "Haldi", "Birthday", "Engagement", "Baby Shower", "Anniversary", "Reception", "Housewarming"];
-const OCCASION_IMAGES: Record<string, string[]> = {
-  Wedding: ["/wedding.jpg", "/wedding-2.jpg"],
-  Haldi: ["/haldi.jpg", "/haldi-2.jpg", "/haldi-3.jpg"],
-  Birthday: ["/birthday.jpg", "/birthday-2.jpg"],
-  Engagement: ["/engagement.jpg"],
-  "Baby Shower": ["/baby-shower.jpg", "/baby-shower-2.jpg"],
-  Anniversary: ["/anniversary.jpg"],
-  Reception: ["/reception.jpg"],
-  Housewarming: ["/housewarming.jpg"]
-};
+// Strict, non-reusable curated list of actual stage decorations we have local images for.
+// No generic random images, no sharing images across unrelated categories.
+const DECORATIONS = [
+  // Wedding (2 images)
+  { id: 1, title: "Royal Ivory Floral Stage", occasion: "Wedding", price: 45000, img: "/wedding.jpg", desc: "Luxurious entrance arch featuring premium ivory roses and champagne accents. Complete stage setup." },
+  { id: 2, title: "Grand Crystal Mandap", occasion: "Wedding", price: 85000, img: "/wedding-2.jpg", desc: "Grand ceiling decoration with hanging crystal chandeliers and lush white floral suspensions for a luxury wedding." },
+  
+  // Haldi (3 images)
+  { id: 3, title: "Traditional Marigold Backdrop", occasion: "Haldi", price: 35000, img: "/haldi.jpg", desc: "A vibrant yellow stage setup featuring marigold strings, saffron drapes, and traditional brass props." },
+  { id: 4, title: "Saffron Floral Canopy", occasion: "Haldi", price: 28000, img: "/haldi-2.jpg", desc: "Vibrant backdrop decoration with hanging marigold garlands and traditional brass urli for Haldi ceremonies." },
+  { id: 5, title: "Sunshine Seating Stage", occasion: "Haldi", price: 24000, img: "/haldi-3.jpg", desc: "Comfortable seating arrangement stage under a yellow floral canopy with bright cushions." },
+  
+  // Birthday (2 images)
+  { id: 6, title: "Pastel Dream Stage", occasion: "Birthday", price: 22000, img: "/birthday.jpg", desc: "Magical pastel balloons and soft floral arrangements perfect for an elegant birthday stage." },
+  { id: 7, title: "Neon Glow Birthday Backdrop", occasion: "Birthday", price: 32000, img: "/birthday-2.jpg", desc: "Premium kids birthday stage setup with pastel blue balloons and a glowing neon sign backdrop." },
+  
+  // Engagement (1 image)
+  { id: 8, title: "Blush Rose Couple Stage", occasion: "Engagement", price: 28000, img: "/engagement.jpg", desc: "Romantic blush pink backdrop with warm lighting and elegant stage seating for the engaged couple." },
+  
+  // Baby Shower (2 images)
+  { id: 9, title: "Soft Baby Blue Stage", occasion: "Baby Shower", price: 25000, img: "/baby-shower.jpg", desc: "Delicate baby blue and pale pink floral backdrop arrangements for a beautiful baby shower stage." },
+  { id: 10, title: "Peach Floral Arch Stage", occasion: "Baby Shower", price: 35000, img: "/baby-shower-2.jpg", desc: "Soft cream and peach floral arch with elegant white seating in a beautiful baby shower setup." },
+  
+  // Anniversary (1 image)
+  { id: 11, title: "Deep Burgundy Romance", occasion: "Anniversary", price: 40000, img: "/anniversary.jpg", desc: "Deep red roses, candlelight, and a premium intimate anniversary stage setup." },
+  
+  // Reception (1 image)
+  { id: 12, title: "Fairy Light Reception Stage", occasion: "Reception", price: 30000, img: "/reception.jpg", desc: "Crystal chandeliers and plum fabric drapes for a grand reception stage." },
+  
+  // Housewarming (1 image)
+  { id: 13, title: "Terracotta Welcome Stage", occasion: "Housewarming", price: 18000, img: "/housewarming.jpg", desc: "Traditional terracotta pots and sage green foliage stage setup for a warm welcoming home ceremony." },
+];
 
-const DECORATIONS = OCCASION_NAMES.flatMap((occ, oIdx) => {
-  return Array.from({ length: 10 }).map((_, i) => {
-    // Generate a unique image for each of the 80 items using a stable lock seed
-    const seed = (oIdx * 10) + i + 1;
-    const category = occ.toLowerCase().replace(" ", "");
-    // Use LoremFlickr to fetch unique but stable photos for each category
-    const img = `https://loremflickr.com/800/600/${category},decoration?lock=${seed}`;
-    
-    const styles = ["Premium", "Luxury", "Classic", "Modern", "Traditional", "Elegant", "Vibrant", "Minimalist", "Grand", "Royal"];
-    return {
-      id: seed,
-      title: `${occ} Design - ${styles[i]}`,
-      occasion: occ,
-      price: 15000 + (Math.floor(Math.random() * 50) * 1000),
-      img: img,
-      desc: `A stunning ${styles[i].toLowerCase()} ${occ.toLowerCase()} setup featuring high-quality floral arrangements, beautiful lighting, and premium props tailored perfectly for your special day.`
-    };
-  });
-});
-
+// Expanded Occasions List as requested
 const OCCASIONS = [
   { name: "Wedding", img: "/wedding.jpg" },
-  { name: "Haldi", img: "/haldi.jpg" },
-  { name: "Birthday", img: "/birthday.jpg" },
   { name: "Engagement", img: "/engagement.jpg" },
+  { name: "Reception", img: "/reception.jpg" },
+  { name: "Birthday", img: "/birthday.jpg" },
+  { name: "Haldi", img: "/haldi.jpg" },
+  { name: "Mehendi", img: null },
   { name: "Baby Shower", img: "/baby-shower.jpg" },
   { name: "Anniversary", img: "/anniversary.jpg" },
-  { name: "Reception", img: "/reception.jpg" },
+  { name: "Naming Ceremony", img: null },
+  { name: "Corporate Event", img: null },
   { name: "Housewarming", img: "/housewarming.jpg" }
 ];
 
@@ -119,8 +122,15 @@ export default function GalleryPage() {
                 onClick={() => handleOccasionClick(occ.name)}
                 className="group cursor-pointer rounded-2xl overflow-hidden border border-border shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card"
               >
-                <div className="relative h-48 w-full overflow-hidden">
-                  <Image src={occ.img} alt={occ.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="relative h-48 w-full overflow-hidden bg-muted flex items-center justify-center">
+                  {occ.img ? (
+                    <Image src={occ.img} alt={occ.name} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
+                  ) : (
+                    <div className="text-muted-foreground flex flex-col items-center">
+                      <Search size={32} className="mb-2 opacity-20" />
+                      <span className="text-sm font-medium">No cover yet</span>
+                    </div>
+                  )}
                 </div>
                 <div className="p-4 text-center">
                   <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">{occ.name}</h3>
