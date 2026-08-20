@@ -70,7 +70,26 @@ function BookingForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, save to Supabase here
+    
+    // Create new booking object
+    const newBooking = {
+      id: "FE-" + Math.floor(1000 + Math.random() * 9000),
+      occasion: decor.occasion,
+      date: formData.date,
+      location: formData.venue,
+      decoration: decor.title,
+      status: "New Request",
+      estimatedPrice: decor.price.toLocaleString('en-IN'),
+      customerName: formData.name,
+      customerPhone: formData.phone,
+      notes: formData.notes,
+      createdAt: new Date().toISOString()
+    };
+
+    // Save to localStorage
+    const existing = JSON.parse(localStorage.getItem('standardBookings') || '[]');
+    localStorage.setItem('standardBookings', JSON.stringify([newBooking, ...existing]));
+
     setIsSubmitted(true);
     
     // Redirect to dashboard after a short delay

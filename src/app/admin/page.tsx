@@ -13,16 +13,28 @@ export default function AdminDashboardPage() {
   ];
 
   const [recentBookings, setRecentBookings] = useState([
-    { id: "FE-8291", customer: "Anjali Gupta", occasion: "Wedding", date: "15 Dec 2026", status: "Confirmed", amount: "₹4,50,000" },
-    { id: "FE-8292", customer: "Rahul Sharma", occasion: "Haldi", date: "18 Dec 2026", status: "Design Discussion", amount: "₹85,000" },
-    { id: "FE-8293", customer: "Priya Singh", occasion: "Birthday", date: "22 Dec 2026", status: "New", amount: "₹45,000" },
-    { id: "FE-8294", customer: "Vikram Reddy", occasion: "Reception", date: "05 Jan 2027", status: "Advance Paid", amount: "₹2,10,000" },
+    { id: "FE-8291", customerName: "Anjali Gupta", occasion: "Wedding", date: "15 Dec 2026", status: "Confirmed", estimatedPrice: "₹4,50,000" },
+    { id: "FE-8292", customerName: "Rahul Sharma", occasion: "Haldi", date: "18 Dec 2026", status: "Design Discussion", estimatedPrice: "₹85,000" },
+    { id: "FE-8293", customerName: "Priya Singh", occasion: "Birthday", date: "22 Dec 2026", status: "New Request", estimatedPrice: "₹45,000" },
+    { id: "FE-8294", customerName: "Vikram Reddy", occasion: "Reception", date: "05 Jan 2027", status: "Advance Paid", estimatedPrice: "₹2,10,000" },
   ]);
 
+  React.useEffect(() => {
+    const saved = localStorage.getItem('standardBookings');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.length > 0) {
+        setRecentBookings(parsed);
+      }
+    }
+  }, []);
+
   const handleStatusChange = (id: string, newStatus: string) => {
-    setRecentBookings(recentBookings.map(booking => 
+    const updated = recentBookings.map(booking => 
       booking.id === id ? { ...booking, status: newStatus } : booking
-    ));
+    );
+    setRecentBookings(updated);
+    localStorage.setItem('standardBookings', JSON.stringify(updated));
   };
 
   const getStatusColor = (status: string) => {
@@ -102,10 +114,10 @@ export default function AdminDashboardPage() {
                 {recentBookings.map((booking) => (
                   <tr key={booking.id} className="border-b border-border hover:bg-muted/20 transition-colors">
                     <td className="p-4 font-medium text-foreground">{booking.id}</td>
-                    <td className="p-4 text-foreground">{booking.customer}</td>
+                    <td className="p-4 text-foreground">{booking.customerName}</td>
                     <td className="p-4 text-muted-foreground">{booking.occasion}</td>
                     <td className="p-4 text-muted-foreground">{booking.date}</td>
-                    <td className="p-4 font-medium text-foreground">{booking.amount}</td>
+                    <td className="p-4 font-medium text-foreground">{booking.estimatedPrice?.toString().includes('₹') ? booking.estimatedPrice : `₹${booking.estimatedPrice}`}</td>
                     <td className="p-4">
                       {/* Interactive Status Dropdown */}
                       <select
@@ -113,7 +125,7 @@ export default function AdminDashboardPage() {
                         onChange={(e) => handleStatusChange(booking.id, e.target.value)}
                         className={`px-3 py-1.5 rounded-full text-xs font-bold border outline-none cursor-pointer appearance-none ${getStatusColor(booking.status)}`}
                       >
-                        <option value="New">New Request</option>
+                        <option value="New Request">New Request</option>
                         <option value="Design Discussion">Design Discussion</option>
                         <option value="Confirmed">Confirmed</option>
                         <option value="Advance Paid">Advance Paid</option>
@@ -122,7 +134,7 @@ export default function AdminDashboardPage() {
                       </select>
                     </td>
                     <td className="p-4 flex justify-end gap-2">
-                      {booking.status === 'New' && (
+                      {booking.status === 'New Request' && (
                         <>
                           <button 
                             onClick={() => handleStatusChange(booking.id, 'Confirmed')}
@@ -138,7 +150,7 @@ export default function AdminDashboardPage() {
                           </button>
                         </>
                       )}
-                      {booking.status !== 'New' && (
+                      {booking.status !== 'New Request' && (
                         <button className="text-primary text-sm font-medium hover:underline p-2">
                           Details
                         </button>

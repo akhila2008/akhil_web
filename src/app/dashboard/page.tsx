@@ -8,24 +8,32 @@ import { Calendar, MapPin, CheckCircle, Package, ArrowRight, Image as ImageIcon 
 export default function DashboardPage() {
   const [customRequests, setCustomRequests] = useState<any[]>([]);
 
+  const [standardBookings, setStandardBookings] = useState<any[]>([]);
+
   useEffect(() => {
     // Load mock custom requests from localStorage
-    const saved = localStorage.getItem('customRequests');
-    if (saved) {
-      setCustomRequests(JSON.parse(saved));
+    const savedCustom = localStorage.getItem('customRequests');
+    if (savedCustom) {
+      setCustomRequests(JSON.parse(savedCustom));
+    }
+    
+    // Load standard bookings from localStorage
+    const savedStandard = localStorage.getItem('standardBookings');
+    if (savedStandard) {
+      setStandardBookings(JSON.parse(savedStandard));
+    } else {
+      // Mock event data if none exist
+      setStandardBookings([{
+        id: "FE-8291",
+        occasion: "Haldi",
+        date: "15 December 2026",
+        location: "Hyderabad, Grand Banquet",
+        decoration: "Premium Marigold Theme",
+        status: "Design Confirmed",
+        estimatedPrice: "72,000"
+      }]);
     }
   }, []);
-
-  // Mock event data (Flow A)
-  const upcomingEvent = {
-    id: "FE-8291",
-    occasion: "Haldi",
-    date: "15 December 2026",
-    location: "Hyderabad, Grand Banquet",
-    decoration: "Premium Marigold Theme",
-    status: "Design Confirmed",
-    estimatedPrice: "72,000"
-  };
 
   return (
     <div className="min-h-screen bg-muted/20 py-12 px-4 sm:px-6 lg:px-8">
@@ -109,87 +117,87 @@ export default function DashboardPage() {
         <h2 className="font-serif text-2xl font-bold text-foreground mb-6">Confirmed Bookings</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          {/* Main Event Card (Flow A Bookings) */}
+          {/* Main Event Cards (Flow A Bookings) */}
           <div className="md:col-span-2 space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <div className="bg-card rounded-3xl p-8 border border-border shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-10 -mt-10" />
-              
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <div className="text-xs font-semibold tracking-wider text-muted-foreground uppercase mb-1">Upcoming Event</div>
-                  <h2 className="font-serif text-3xl font-bold text-foreground">{upcomingEvent.occasion} Ceremony</h2>
-                </div>
-                <span className="px-3 py-1 bg-green-50 text-green-700 border border-green-200 text-sm font-bold rounded-full">
-                  {upcomingEvent.status}
-                </span>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-                <div className="flex items-start">
-                  <Calendar className="text-primary mr-3 mt-0.5" size={20} />
+            {standardBookings.map((booking: any) => (
+              <div key={booking.id} className="bg-card rounded-3xl p-8 border border-border shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-10 -mt-10" />
+                
+                <div className="flex justify-between items-start mb-6">
                   <div>
-                    <div className="text-sm text-muted-foreground">Date</div>
-                    <div className="font-medium text-foreground">{upcomingEvent.date}</div>
+                    <div className="text-xs font-semibold tracking-wider text-muted-foreground uppercase mb-1">Upcoming Event</div>
+                    <h2 className="font-serif text-3xl font-bold text-foreground">{booking.occasion} Ceremony</h2>
+                  </div>
+                  <span className={`px-3 py-1 border text-sm font-bold rounded-full ${booking.status === 'New Request' ? 'bg-orange-50 text-orange-700 border-orange-200' : 'bg-green-50 text-green-700 border-green-200'}`}>
+                    {booking.status}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                  <div className="flex items-start">
+                    <Calendar className="text-primary mr-3 mt-0.5" size={20} />
+                    <div>
+                      <div className="text-sm text-muted-foreground">Date</div>
+                      <div className="font-medium text-foreground">{booking.date}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <MapPin className="text-primary mr-3 mt-0.5" size={20} />
+                    <div>
+                      <div className="text-sm text-muted-foreground">Venue</div>
+                      <div className="font-medium text-foreground">{booking.location}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <Package className="text-primary mr-3 mt-0.5" size={20} />
+                    <div>
+                      <div className="text-sm text-muted-foreground">Decoration</div>
+                      <div className="font-medium text-foreground">{booking.decoration}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-primary font-bold text-lg mr-3 mt-0.5">₹</span>
+                    <div>
+                      <div className="text-sm text-muted-foreground">Total Price</div>
+                      <div className="font-medium text-foreground">{booking.estimatedPrice?.toString().includes('₹') ? booking.estimatedPrice : `₹${booking.estimatedPrice}`}</div>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <MapPin className="text-primary mr-3 mt-0.5" size={20} />
-                  <div>
-                    <div className="text-sm text-muted-foreground">Venue</div>
-                    <div className="font-medium text-foreground">{upcomingEvent.location}</div>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <Package className="text-primary mr-3 mt-0.5" size={20} />
-                  <div>
-                    <div className="text-sm text-muted-foreground">Decoration</div>
-                    <div className="font-medium text-foreground">{upcomingEvent.decoration}</div>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <span className="text-primary font-bold text-lg mr-3 mt-0.5">₹</span>
-                  <div>
-                    <div className="text-sm text-muted-foreground">Total Price</div>
-                    <div className="font-medium text-foreground">{upcomingEvent.estimatedPrice}</div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Status Tracking Timeline */}
-              <div className="mt-8 pt-8 border-t border-border">
-                <h3 className="font-medium text-foreground mb-6">Tracking Status</h3>
-                <div className="relative">
-                  <div className="absolute top-3 left-0 w-full h-0.5 bg-muted"></div>
-                  <div className="absolute top-3 left-0 w-1/3 h-0.5 bg-primary"></div>
-                  
-                  <div className="relative flex justify-between">
-                    <div className="flex flex-col items-center">
-                      <div className="w-6 h-6 rounded-full bg-primary text-card flex items-center justify-center z-10 mb-2">
-                        <CheckCircle size={14} />
+                {/* Status Tracking Timeline */}
+                <div className="mt-8 pt-8 border-t border-border">
+                  <h3 className="font-medium text-foreground mb-6">Tracking Status</h3>
+                  <div className="relative">
+                    <div className="absolute top-3 left-0 w-full h-0.5 bg-muted"></div>
+                    <div className="absolute top-3 left-0 w-1/3 h-0.5 bg-primary"></div>
+                    
+                    <div className="relative flex justify-between">
+                      <div className="flex flex-col items-center">
+                        <div className="w-6 h-6 rounded-full bg-primary text-card flex items-center justify-center z-10 mb-2">
+                          <CheckCircle size={14} />
+                        </div>
+                        <span className="text-xs font-medium text-foreground">Requested</span>
                       </div>
-                      <span className="text-xs font-medium text-foreground">Requested</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <div className="w-6 h-6 rounded-full bg-primary text-card flex items-center justify-center z-10 mb-2">
-                        <CheckCircle size={14} />
+                      <div className="flex flex-col items-center">
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center z-10 mb-2 ${booking.status !== 'New Request' ? 'bg-primary text-card' : 'bg-card border-2 border-primary text-primary'}`}>
+                          {booking.status !== 'New Request' ? <CheckCircle size={14} /> : <div className="w-2 h-2 rounded-full bg-primary"></div>}
+                        </div>
+                        <span className="text-xs font-medium text-foreground">Confirmed</span>
                       </div>
-                      <span className="text-xs font-medium text-foreground">Confirmed</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <div className="w-6 h-6 rounded-full bg-card border-2 border-primary text-primary flex items-center justify-center z-10 mb-2">
-                        <div className="w-2 h-2 rounded-full bg-primary"></div>
+                      <div className="flex flex-col items-center">
+                        <div className="w-6 h-6 rounded-full bg-muted border-2 border-border z-10 mb-2"></div>
+                        <span className="text-xs font-medium text-muted-foreground">Payment</span>
                       </div>
-                      <span className="text-xs font-medium text-primary">Payment</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <div className="w-6 h-6 rounded-full bg-muted border-2 border-border z-10 mb-2"></div>
-                      <span className="text-xs font-medium text-muted-foreground">Setup</span>
+                      <div className="flex flex-col items-center">
+                        <div className="w-6 h-6 rounded-full bg-muted border-2 border-border z-10 mb-2"></div>
+                        <span className="text-xs font-medium text-muted-foreground">Setup</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-            </div>
+              </div>
+            ))}
           </div>
 
           {/* Sidebar */}
