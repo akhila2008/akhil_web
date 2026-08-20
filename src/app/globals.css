@@ -1,26 +1,170 @@
 @import "tailwindcss";
+@import "tailwindcss/utilities";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@plugin "tailwindcss-animate";
 
-@theme inline {
+@theme {
+  --font-serif: "Playfair Display", "Georgia", serif;
+  --font-sans: "Inter", "Helvetica Neue", sans-serif;
+  
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  /* Default Luxury Theme (Neutral/Gold) */
+  --primary: #1F2937; /* Dark slate */
+  --secondary: #F3F4F6; /* Light gray */
+  --accent: #D4AF37; /* Warm Gold */
+  --background: #FAFAFA; /* Off white */
+  --foreground: #111827; /* Near black */
+  --card: #FFFFFF;
+  --card-foreground: #111827;
+  --border: #E5E7EB;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+}
+
+[data-theme="wedding"] {
+  --primary: #800020; /* Burgundy */
+  --secondary: #F5E6E6; /* Blush/Ivory */
+  --accent: #D4AF37; /* Subtle Gold */
+  --background: #FAFAFA; /* Ivory */
+  --foreground: #2C1820; /* Deep Burgundy/Brown */
+  --card: #FFFFFF;
+  --card-foreground: #2C1820;
+  --border: #E8D8D8;
+  --muted: #F9F2F2;
+  --muted-foreground: #8C757B;
+}
+
+[data-theme="haldi"] {
+  --primary: #D97706; /* Saffron/Orange */
+  --secondary: #FEF3C7; /* Cream/Warm Yellow */
+  --accent: #F59E0B; /* Marigold Yellow */
+  --background: #FFFDF5; /* Warm White */
+  --foreground: #451A03; /* Deep Orange/Brown */
+  --card: #FFFFFF;
+  --card-foreground: #451A03;
+  --border: #FDE68A;
+  --muted: #FFFBEB;
+  --muted-foreground: #92400E;
+}
+
+[data-theme="birthday"] {
+  --primary: #8B5CF6; /* Soft Purple */
+  --secondary: #FCE7F3; /* Pastel Pink */
+  --accent: #F472B6; /* Peach/Pink */
+  --background: #FAFAFC; /* Clean White */
+  --foreground: #2E1065; /* Deep Purple */
+  --card: #FFFFFF;
+  --card-foreground: #2E1065;
+  --border: #EDE9FE;
+  --muted: #F3F0FF;
+  --muted-foreground: #6D28D9;
+}
+
+[data-theme="engagement"] {
+  --primary: #BE185D; /* Rose */
+  --secondary: #FFE4E6; /* Blush Pink */
+  --accent: #FCD34D; /* Champagne */
+  --background: #FFFAF9; /* Cream */
+  --foreground: #4C0519; /* Deep Rose */
+  --card: #FFFFFF;
+  --card-foreground: #4C0519;
+  --border: #FECDD3;
+  --muted: #FFF1F2;
+  --muted-foreground: #9F1239;
+}
+
+[data-theme="baby-shower"] {
+  --primary: #3B82F6; /* Soft Blue */
+  --secondary: #DBEAFE; /* Very Soft Blue */
+  --accent: #FBCFE8; /* Soft Pink Accent */
+  --background: #F8FAFC; /* White/Gray */
+  --foreground: #1E3A8A; /* Dark Blue */
+  --card: #FFFFFF;
+  --card-foreground: #1E3A8A;
+  --border: #BFDBFE;
+  --muted: #EFF6FF;
+  --muted-foreground: #2563EB;
+}
+
+[data-theme="anniversary"] {
+  --primary: #7F1D1D; /* Deep Red */
+  --secondary: #FEE2E2; /* Rose */
+  --accent: #B45309; /* Rose Gold/Bronze */
+  --background: #FCFAFA; /* Light Cream */
+  --foreground: #450A0A; /* Dark Burgundy */
+  --card: #FFFFFF;
+  --card-foreground: #450A0A;
+  --border: #FECACA;
+  --muted: #FEF2F2;
+  --muted-foreground: #991B1B;
+}
+
+[data-theme="reception"] {
+  --primary: #4C1D95; /* Deep Plum */
+  --secondary: #FDF4FF; /* Ivory/Fuchsia tint */
+  --accent: #FBBF24; /* Gold */
+  --background: #FAFAFA; 
+  --foreground: #2E1065; /* Deep Plum */
+  --card: #FFFFFF;
+  --card-foreground: #2E1065;
+  --border: #F3E8FF;
+  --muted: #FAF5FF;
+  --muted-foreground: #6B21A8;
+}
+
+[data-theme="housewarming"] {
+  --primary: #9A3412; /* Terracotta */
+  --secondary: #ECFCCB; /* Sage Green */
+  --accent: #D97706; /* Warm Gold */
+  --background: #FFFDF7; /* Cream */
+  --foreground: #431407; /* Deep Terracotta */
+  --card: #FFFFFF;
+  --card-foreground: #431407;
+  --border: #FEE2E2;
+  --muted: #FFF7ED;
+  --muted-foreground: #C2410C;
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme] .glass-card {
+  border-color: color-mix(in srgb, var(--primary) 10%, transparent);
 }
