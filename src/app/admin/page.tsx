@@ -1,6 +1,5 @@
-"use client";
-
 import React from "react";
+import Link from "next/link";
 import { Users, Calendar as CalendarIcon, IndianRupee, TrendingUp, Package, Image as ImageIcon } from "lucide-react";
 
 export default function AdminDashboardPage() {
@@ -27,12 +26,12 @@ export default function AdminDashboardPage() {
             <p className="text-muted-foreground">Overview of Floraa Events operations</p>
           </div>
           <div className="flex gap-4">
-            <button className="px-4 py-2 bg-card border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors flex items-center">
+            <Link href="/admin/calendar" className="px-4 py-2 bg-card border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors flex items-center">
               <CalendarIcon size={16} className="mr-2" /> View Calendar
-            </button>
-            <button className="px-4 py-2 bg-primary text-card rounded-lg text-sm font-medium hover:opacity-90 transition-opacity flex items-center">
+            </Link>
+            <Link href="/admin/decorations" className="px-4 py-2 bg-primary text-card rounded-lg text-sm font-medium hover:opacity-90 transition-opacity flex items-center">
               <ImageIcon size={16} className="mr-2" /> Manage Decorations
-            </button>
+            </Link>
           </div>
         </div>
 
